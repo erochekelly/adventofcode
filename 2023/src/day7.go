@@ -23,6 +23,7 @@ const (
 )
 
 var jokers = true // Set to false for Part 1
+var hands []Hand // global for sort function 
 
 type Hand struct {
 	Cards string
@@ -35,18 +36,13 @@ type Hands []Hand
 func (s Hands) Len() int      { return len(s) }
 func (s Hands) Swap(i, j int) { s[i], s[j] = s[j], s[i] }
 
-var hands []Hand
-
 type Order struct{ Hands }
 
 func (s Order) Less(i, j int) bool {
 	if s.Hands[i].Type == s.Hands[j].Type {
-		//fmt.Printf("%s ", s.Hands[i].Cards)
-		//fmt.Printf("%s "s.Hands[j].Cards)
 		for c := 0; c < 5; c++ {
 			vi := getValue(s.Hands[i].Cards[c : c+1])
 			vj := getValue(s.Hands[j].Cards[c : c+1])
-			//fmt.Printf(c, vi, vj)
 			if vi != vj {
 				return vi < vj
 			}
@@ -140,7 +136,7 @@ func getType(s string) handType {
 		}
 		return pair
 	}
-	if jokers && cardCount['J'] != 0 {
+	if jokers && cardCount['J'] != 0 { // Jwxyz
 		return pair
 	}
 	return high
@@ -152,7 +148,6 @@ func main() {
 	var winnings int
 
 	readFile, err := os.Open("../data/day7/input.txt")
-	// readFile, err := os.Open("day7.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -169,7 +164,6 @@ func main() {
 	}
 	sort.Sort(Order{hands})
 	for rank, h := range hands {
-		fmt.Println(h.Cards, h.Bid, h.Type, rank)
 		winnings += h.Bid * (rank + 1)
 	}
 	if !jokers {
