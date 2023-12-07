@@ -23,12 +23,11 @@ const (
 )
 
 var jokers = true // Set to false for Part 1
-var hands []Hand // global for sort function 
 
 type Hand struct {
 	Cards string
-	Type  handType
 	Bid   int
+	Type  handType
 }
 
 type Hands []Hand
@@ -88,7 +87,7 @@ func getType(s string) handType {
 	}
 
 	switch sum {
-	case 17:
+	case 17: // XXXXy : 4+4+4+4+1
 		if jokers { // xxxxJ
 			switch cardCount['J'] {
 			case 1: // xxxJx
@@ -98,12 +97,12 @@ func getType(s string) handType {
 			}
 		}
 		return four
-	case 13:
+	case 13: // XXXYY : 3+3+3+2+2
 		if jokers && cardCount['J'] != 0 { // either JJJxx or xxxJJ
 			return five
 		}
 		return fullHouse
-	case 11:
+	case 11: // XXXyz : 3+3+3+1+1
 		if jokers {
 			switch cardCount['J'] {
 			case 1: // xxxJy
@@ -115,7 +114,7 @@ func getType(s string) handType {
 			}
 		}
 		return three
-	case 9:
+	case 9: // XXyZZ : 2+2+1+2+2
 		if jokers {
 			switch cardCount['J'] {
 			case 1: // xxJyy
@@ -125,7 +124,7 @@ func getType(s string) handType {
 			}
 		}
 		return twoPair
-	case 7:
+	case 7: // XXwyz : 2+2+1+1+1
 		if jokers {
 			switch cardCount['J'] {
 			case 1: // xxJyz
