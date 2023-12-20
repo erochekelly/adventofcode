@@ -102,12 +102,9 @@ yAxis:
 }
 
 func getDistance(g Galaxy) int {
-
 	var sum int
-	var pair int
 	for i, a := range g {
 		for _, b := range g[i+1:] {
-			pair++
 			x := math.Abs(float64(b.X - a.X))
 			y := math.Abs(float64(b.Y - a.Y))
 			sum += int(x + y)
